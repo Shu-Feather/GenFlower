@@ -40,7 +40,7 @@
 
 encoder部分将一个图片压缩编码成为一个latent vector，该vector可以看作是图片的深层特征；decoder部分将这个vector重建回图片。因此，我们可以用Autoencoder的decoder部分来进行图片的生成：通过随机采样一个latent vector，可以期待decoder部分将这个vector转换成一个有意义的图片。
 
-3. 可以运行`python random_generation.py --model AE`来生成一些图片，该脚本将会在$N(0, 1)$中随机采样若干vector，并feed进刚刚训练好的decoder将其转换成图片，输出图片保存在`./vis/random_images_AE.png`中。
+3. 可以运行`python random_generation.py --model AE`来生成一些图片，该脚本将会在 N(0, 1) 中随机采样若干vector，并feed进刚刚训练好的decoder将其转换成图片，输出图片保存在`./vis/random_images_AE.png`中。
 
 
 ## Part 3: Variational Autoencoder
@@ -54,21 +54,42 @@ part 2尝试通过在标准正态分布中采样向量，并将其输入到训�
 
 2. 可以运行`python visualization.py --model VAE`来可视化模型的重建效果，输出图片保存在`./vis/train_VAE.png`与`./vis/valid_VAE.png`中。
 
-3. 可以运行`python random_generation.py --model VAE`来生成随机一些图片，该脚本将会在$N(0, 1)$中随机采样若干vector，并通过你训练好的decoder将其转换成图片，输出图片保存在`./vis/random_images_VAE.png`中。
+3. 可以运行`python random_generation.py --model VAE`来生成随机一些图片，该脚本将会在 N(0, 1) 中随机采样若干vector，并通过你训练好的decoder将其转换成图片，输出图片保存在`./vis/random_images_VAE.png`中。
 
 VAE生成图片比Convolutional Autoencoder生成的图片更加“有意义”：这些图片看起来更像是真实的花，而不是像素的随机组合，虽然它们仍旧有些模糊。
 
 ## Part 4: Diffusion Model (DDPM) 
 
-`Diffusion_image.py`中搭建了一个DDPM（Denoising Diffusion Probabilistic Models）算法框架。
+`Diffusion_image.py`中搭建了一个DDPM（Denoising Diffusion Probabilistic Models）算法框架，使用改进的U-Net架构和余弦噪声调度策略。
 
+```python
+IMG_WIDTH, IMG_HEIGHT = 32, 32              # 图像尺寸
+batch_size = 8                              # 批大小
 
+num_epochs = 200                           # 训练轮数
+learning_rate = 1e-4                       # 学习率
+early_stopping_patience = 30               # dropout耐心值
 
+num_steps = 1000                           # 扩散步数
+beta_min = 1e-4                            # 噪声调度最小beta
+beta_max = 0.02                            # 噪声调度最大beta
+
+base_dim = 64                              # U-Net基础通道数
+ema_decay = 0.995                          # EMA衰减率
+```
+
+运行 `python Diffusion_image.py`：
+1. 损失曲线保存路径：./vis/diffusion/loss_curve.png
+
+2. 每个采样阶段的图像： ./vis/diffusion/progress_epoch_{N}.png
+
+3. 最终生成样本： ./vis/diffusion/sample_epoch_{N}.png
 
 
 **Reference**
 
 [DDPM原论文](https://arxiv.org/pdf/2006.11239)
+
 [算法推导，代码参考](https://www.bilibili.com/video/BV1b541197HX/?spm_id_from=333.788&vd_source=295aeb7cc6407338dd3e15d41a6b90ed)
 
 
