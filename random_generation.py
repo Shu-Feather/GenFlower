@@ -24,7 +24,7 @@ model.load_state_dict(torch.load(model_save_path))
 # Ensure the model is in evaluation mode
 model.eval()
 
-# TODO: Generate random images
+# Generate random images
 '''
 Steps:
 1. Sample 10 latent vectors from a standard normal distribution (mean=0, std=1).
@@ -37,7 +37,7 @@ latent_vectors = torch.randn(10, ENCODING_DIM)  # Shape: (10, encoding_dim)
 
 # Step 2: Use the decoder to generate images
 with torch.no_grad():  # No gradients needed for generation
-    random_images = model.decoder(latent_vectors)  # Shape: (10, 3, 24, 24)
+    random_images = model.decoder(latent_vectors)  
 
 # Step 3: Ensure the output images are in the valid range [0, 1]
 random_images = torch.clamp(random_images, 0, 1)

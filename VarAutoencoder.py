@@ -18,8 +18,9 @@ class VarEncoder(nn.Module):
         self.conv3 = nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1)
 
         # Fully connected layers to generate mu and log_var
-        self.fc_mu = nn.Linear(128 * 6 * 6, encoding_dim)
-        self.fc_log_var = nn.Linear(128 * 6 * 6, encoding_dim)
+        self.flat_features = 128 * (IMG_HEIGHT // 4) * (IMG_WIDTH // 4) 
+        self.fc_mu = nn.Linear(self.flat_features, encoding_dim)
+        self.fc_log_var = nn.Linear(self.flat_features, encoding_dim)
 
     def forward(self, x):
         x = F.relu(self.conv1(x))
@@ -30,7 +31,7 @@ class VarEncoder(nn.Module):
         
         x = F.relu(self.conv3(x))
         
-        x = x.view(-1, 128 * 6 * 6)
+        x = x.view(-1, self.flat_features) 
         
         mu = self.fc_mu(x)
         log_var = self.fc_log_var(x)
@@ -41,7 +42,8 @@ class VarEncoder(nn.Module):
 class VarDecoder(nn.Module):
     def __init__(self, encoding_dim):
         super(VarDecoder, self).__init__()
-        self.fc = nn.Linear(encoding_dim, 128 * 6 * 6)
+        self.flat_features = 128 * (IMG_HEIGHT // 4) * (IMG_WIDTH // 4)
+        self.fc = nn.Linear(encoding_dim, self.flat_features)  
         
         self.deconv1 = nn.ConvTranspose2d(128, 64, kernel_size=3, stride=2, padding=1, output_padding=1)
         self.deconv2 = nn.ConvTranspose2d(64, 32, kernel_size=3, stride=2, padding=1, output_padding=1)

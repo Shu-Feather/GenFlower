@@ -24,7 +24,7 @@ model_save_root = "./model"
 
 IMG_WIDTH, IMG_HEIGHT = 96, 96
 
-batch_size = 8
+batch_size = 1
 num_epochs = 100
 early_stopping_patience = 5
 model_class = VarAutoencoder if args.model == "VAE" else Autoencoder

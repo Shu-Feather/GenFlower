@@ -24,7 +24,7 @@ batch_size = 8
 num_epochs = 200
 learning_rate = 1e-4
 early_stopping_patience = 30
-IMG_WIDTH, IMG_HEIGHT = 32, 32
+IMG_WIDTH, IMG_HEIGHT = 96, 96
 
 # Diffusion process settings
 num_steps = 1000

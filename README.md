@@ -81,9 +81,11 @@ ema_decay = 0.995                          # EMA衰减率
 运行 `python Diffusion_image.py`：
 1. 损失曲线保存路径：./vis/diffusion/loss_curve.png
 
-2. 每个采样阶段的图像： ./vis/diffusion/progress_epoch_{N}.png
+2. 每个采样阶段的图像： ./vis/diffusion/progress_epoch_{N}.png，最终生成样本： ./vis/diffusion/sample_epoch_{N}.png
 
-3. 最终生成样本： ./vis/diffusion/sample_epoch_{N}.png
+3. 最优模型保存在 ./model/Best_Diffusion_Model.pkl
+
+运行`python Diffusion_image_gen.py`，可以加载./model/Best_Diffusion_Model.pkl并生成指定数量的图片，保存在./generated_images路径下。
 
 
 **Reference**
