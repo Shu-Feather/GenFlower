@@ -43,7 +43,7 @@ encoder部分将一个图片压缩编码成为一个latent vector，该vector可
 3. 可以运行`python random_generation.py --model AE`来生成一些图片，该脚本将会在 N(0, 1) 中随机采样若干vector，并feed进刚刚训练好的decoder将其转换成图片，输出图片保存在`./vis/random_images_AE.png`中。
 
 
-## Part 3: Variational Autoencoder
+## Part 3: Variational Autoencoder (VAE)
 part 2尝试通过在标准正态分布中采样向量，并将其输入到训练好的decoder中，从而生成了一些图片。
 
 但是，观察可以发现，这些图片并不是特别“有意义”：它们看起来只是不同颜色像素的随机组合，而不是我们从未见过的“花”。这是因为传统的AE并不会将数据点映射到一个有意义的分布上，而是映射到一个个离散的点上。因此，当你随机采样时，采样到“有意义”的点的概率非常低。
